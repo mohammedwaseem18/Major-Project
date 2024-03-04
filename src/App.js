@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import All from "./components/All";
+// import { Element } from 'react-scroll';
+import { BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-function App() {
+import ManagerLogin from "./components/ManagerLogin";
+import ManagerSignup from "./components/ManagerSignup";
+import EmployeeLogin from "./components/EmployeeLogin";
+import EmployeeSignup from "./components/EmployeeSignup";
+
+import "./App.css";
+
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<All />} />
+          <Route path="/login" element={<ManagerLogin />} />
+          <Route path="/signup" element={<ManagerSignup />} />
+          <Route path="/elogin" element={<EmployeeLogin />} />
+          <Route path="/esignup" element={<EmployeeSignup />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
