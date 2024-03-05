@@ -56,9 +56,13 @@
   }
   
   .right-panel {
+    height: 775px;
+    width: 1500px;
     padding: 20px;
-    flex: 1;
-    overflow-y: auto;
-   
+     flex: 1; 
+     overflow-y: auto;  
+     background-color: rgba(196, 196, 238, 0.734); 
+     /* background-color: ghostwhite; */
+      /* position: ;  */
+    
   }
-  
