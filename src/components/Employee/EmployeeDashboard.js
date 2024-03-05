@@ -10,19 +10,15 @@ import CompletedTask from '../Manager/CompletedTask'; // Import CompletedTask co
 
 import Avatar from '@mui/material/Avatar'; // Import Avatar component from Material-UI
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
-
-import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import ThreePOutlinedIcon from '@mui/icons-material/ThreePOutlined';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
 import MedicalInformationOutlinedIcon from '@mui/icons-material/MedicalInformationOutlined';
-import HolidayVillageOutlinedIcon from '@mui/icons-material/HolidayVillageOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-
-import ThreePOutlinedIcon from '@mui/icons-material/ThreePOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
 
 function EmployeeDashboard() {
   const [showReceivedTaskPanel, setShowReceivedTaskPanel] = useState(false);
@@ -35,6 +31,7 @@ function EmployeeDashboard() {
     setShowReceivedTaskPanel(!showReceivedTaskPanel);
     setShowRequestLeave(false);
     setShowEmployeeRequests(false);
+    setShowLeaveRequestStatus(false);
     setShowCompletedTask(false); // Close CompletedTask component
   };
 
@@ -42,6 +39,7 @@ function EmployeeDashboard() {
     setShowRequestLeave(!showRequestLeave);
     setShowReceivedTaskPanel(false);
     setShowEmployeeRequests(false);
+    setShowLeaveRequestStatus(false);
     setShowCompletedTask(false); // Close CompletedTask component
   };
 
@@ -49,6 +47,7 @@ function EmployeeDashboard() {
     setShowEmployeeRequests(!showEmployeeRequests);
     setShowReceivedTaskPanel(false);
     setShowRequestLeave(false);
+    setShowLeaveRequestStatus(false);
     setShowCompletedTask(false); // Close CompletedTask component
   };
 
@@ -57,6 +56,7 @@ function EmployeeDashboard() {
     setShowReceivedTaskPanel(false);
     setShowRequestLeave(false);
     setShowEmployeeRequests(false);
+    setShowLeaveRequestStatus(false);
   };
 
   const toggleLeaveRequestStatus = () => {
@@ -111,13 +111,10 @@ function EmployeeDashboard() {
             <span>Status</span>
           </div>
 
-         
-
           <div className="menu-item">
             <MedicalInformationOutlinedIcon />
             <span>Health </span>
           </div>
-
 
           <div className="menu-item">
             <AccountCircleOutlinedIcon />
@@ -138,7 +135,7 @@ function EmployeeDashboard() {
       <div className="content">
         <div className="navbar">
           <div className="icons">
-          <MessageIcon sx={{ width: 40, height: 40 }}/>
+            <MessageIcon sx={{ width: 40, height: 40 }}/>
             <NotificationsIcon sx={{ width: 40, height: 40 }}/>
           </div>
         </div>
@@ -147,7 +144,7 @@ function EmployeeDashboard() {
           {showRequestLeave && <RequestLeave />}
           {showEmployeeRequests && <EmployeeRequests />}
           {showCompletedTask && <CompletedTask />}
-          {showLeaveRequestStatus&&<LeaveRequestStatus/>}
+          {showLeaveRequestStatus && <LeaveRequestStatus />}
         </div>
       </div>
     </div>
