@@ -3,6 +3,7 @@ import './EmployeeDashboard.css'
 
 import ReceivedTask from './ReceivedTask'; // Import ReceivedTask component
 import RequestLeave from './RequestLeave';
+import LeaveRequestStatus from './LeaveRequestStatus';
 
 import EmployeeRequests from '../Manager/EmployeeRequests'; // Import EmployeeRequests component
 import CompletedTask from '../Manager/CompletedTask'; // Import CompletedTask component
@@ -21,12 +22,14 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 
 import ThreePOutlinedIcon from '@mui/icons-material/ThreePOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import ForwardToInboxOutlinedIcon from '@mui/icons-material/ForwardToInboxOutlined';
 
 function EmployeeDashboard() {
   const [showReceivedTaskPanel, setShowReceivedTaskPanel] = useState(false);
   const [showRequestLeave, setShowRequestLeave] = useState(false);
   const [showEmployeeRequests, setShowEmployeeRequests] = useState(false);
   const [showCompletedTask, setShowCompletedTask] = useState(false); // Added state for CompletedTask
+  const [showLeaveRequestStatus, setShowLeaveRequestStatus] = useState(false); 
 
   const toggleReceivedTaskPanel = () => {
     setShowReceivedTaskPanel(!showReceivedTaskPanel);
@@ -55,6 +58,15 @@ function EmployeeDashboard() {
     setShowRequestLeave(false);
     setShowEmployeeRequests(false);
   };
+
+  const toggleLeaveRequestStatus = () => {
+    setShowLeaveRequestStatus(!showLeaveRequestStatus); // Toggle the leave request status panel
+    setShowReceivedTaskPanel(false);
+    setShowRequestLeave(false);
+    setShowEmployeeRequests(false);
+    setShowCompletedTask(false);
+  };
+
 
   // Function to handle image upload
   const handleImageUpload = (e) => {
@@ -94,6 +106,11 @@ function EmployeeDashboard() {
             <span>Request Leave</span>
           </div>
 
+          <div className="menu-item" onClick={toggleLeaveRequestStatus}>
+            <ForwardToInboxOutlinedIcon/>
+            <span>Status</span>
+          </div>
+
          
 
           <div className="menu-item">
@@ -130,6 +147,7 @@ function EmployeeDashboard() {
           {showRequestLeave && <RequestLeave />}
           {showEmployeeRequests && <EmployeeRequests />}
           {showCompletedTask && <CompletedTask />}
+          {showLeaveRequestStatus&&<LeaveRequestStatus/>}
         </div>
       </div>
     </div>
@@ -137,4 +155,3 @@ function EmployeeDashboard() {
 }
 
 export default EmployeeDashboard;
-

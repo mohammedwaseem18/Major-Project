@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 function ManagerSignup() {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
   return (
     <div className="login">
       <form className="loginbox">
@@ -11,7 +17,11 @@ function ManagerSignup() {
         <div className="login-inputcontainer">
           <div>
             <label htmlFor="name" className="inp-component">
-              <input placeholder="Name *" className="login-input" type="text" />
+              <input
+                placeholder="Name *"
+                className="login-input"
+                type="text"
+              />
             </label>
           </div>
           <div>
@@ -44,9 +54,21 @@ function ManagerSignup() {
           <div>
             <label htmlFor="conform-password" className="inp-component">
               <input
-                placeholder="Conform Password *"
+                placeholder="Confirm Password *"
                 className="login-input"
                 type="password"
+              />
+            </label>
+          </div>
+          <div>
+            <label htmlFor="avatar" className="inp-component">
+              Upload Image:
+              <input
+                id="avatar"
+                className="login-input"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
               />
             </label>
           </div>
@@ -61,7 +83,7 @@ function ManagerSignup() {
         </div>
       </form>
       <div className="right-login">
-    
+      
       </div>
     </div>
   );
