@@ -1,17 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './RequestLeave.css'
+import { getUser, requestLeave } from '../../apiCalls';
 
 const RequestLeave = () => {
+    const [user, setUser] = useState();
+
+  const getUserDetails = async () => {
+    const res = await getUser();
+    setUser(res.user);
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
   const [leaveType, setLeaveType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [reason, setReason] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
     // Send leave request to the server or perform necessary actions
     console.log('Leave request submitted:', { leaveType, startDate, endDate, reason });
+
+     const res=await requestLeave({ type: leaveType, start_date:startDate, end_date: endDate, reason, requested_to: user.reporting_to });
+    if(res.success){
+      alert('requested leave successfully')
+    }else{
+      alert('leave request fail failed')
+    }
+
+
     // Optionally, reset form fields
+
     setLeaveType('');
     setStartDate('');
     setEndDate('');

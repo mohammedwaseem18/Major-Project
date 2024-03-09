@@ -1,30 +1,49 @@
-import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap'; // Import Modal and Button components from react-bootstrap
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import React, { useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap"; // Import Modal and Button components from react-bootstrap
+import { assignTask, getAllMentees } from "../../apiCalls";
 
 function EmployeeList() {
   const [showModal, setShowModal] = useState(false); // State variable for controlling modal visibility
   const [taskDescription, setTaskDescription] = useState(""); // State variable to store task description
   const [subject, setSubject] = useState(""); // State variable to store task subject
   const [deadline, setDeadline] = useState(""); // State variable to store task deadline
+  const [assignUserId, setAssignUserId] = useState(); // State variable to store task deadline
 
+  const [mentees, setMentees] = useState([]);
+
+  const getMentees = async () => {
+    const res = await getAllMentees();
+    setMentees(res.mentees);
+  };
+
+  useEffect(() => {
+    getMentees();
+  }, []);
   const handleAssignTask = (userId) => {
     // Handle task assignment for the specific user
     console.log(`Assign task for user with ID: ${userId}`);
+    setAssignUserId(userId)
     setShowModal(true); // Show the modal when the button is clicked
   };
 
-  const handleTaskSubmission = () => {
+  const handleTaskSubmission = async() => {
     // Handle task submission
     console.log("Task Subject:", subject);
     console.log("Task Description:", taskDescription);
     console.log("Task Deadline:", deadline);
-    setShowModal(false); // Close the modal after submission
-    // Additional logic for task submission can be added here
+    setShowModal(false); 
+
+    const res=await assignTask({ subject, description: taskDescription, deadline, assign_to: assignUserId });
+    if(res.success){
+      alert('Task assigned successfully')
+    }else{
+      alert('Task assigned failed')
+    }
+
   };
 
   return (
-    <div className='waseem'>
+    <div className="waseem">
       <table className="table table-striped">
         <thead>
           <tr>
@@ -35,30 +54,24 @@ function EmployeeList() {
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <button onClick={() => handleAssignTask(1)} className="btn btn-primary">Assign Task</button>
-            </td>
-          </tr>
-        
-        </tbody>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-              <button onClick={() => handleAssignTask(1)} className="btn btn-primary">Assign Task</button>
-            </td>
-          </tr>
-        
-        </tbody>
+        {mentees.map((mentee, index) => (
+          <tbody key={mentee._id}>
+            <tr>
+              <th scope="row">{index + 1}</th>
+              <td>{mentee.name}</td>
+              <td>{mentee.position}</td>
+              <td>{mentee.email}</td>
+              <td>
+                <button
+                  onClick={() => handleAssignTask(mentee.id)}
+                  className="btn btn-primary"
+                >
+                  Assign Task
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        ))}
       </table>
 
       {/* Modal */}
@@ -99,8 +112,12 @@ function EmployeeList() {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>Close</Button>
-          <Button variant="primary" onClick={handleTaskSubmission}>Submit</Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleTaskSubmission}>
+            Submit
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
@@ -108,4 +125,3 @@ function EmployeeList() {
 }
 
 export default EmployeeList;
-

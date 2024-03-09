@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './AdminDashboard.css'; // Import CSS file for styling
 import AddEmployee from './AddEmployee'; // Import AddEmployee component
 import EmployeeList from './EmployeeList'; // Import EmployeeList component
@@ -16,8 +16,21 @@ import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../apiCalls';
 
 function AdminDashboard() {
+  const navigate = useNavigate()
+  const [user, setUser] = useState();
+
+  const getUserDetails = async () => {
+    const res = await getUser();
+    setUser(res.user);
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
   const [showAddEmployeePanel, setShowAddEmployeePanel] = useState(false);
   const [showEmployeeList, setShowEmployeeList] = useState(false);
   const [showEmployeeRequests, setShowEmployeeRequests] = useState(false);
@@ -63,8 +76,8 @@ function AdminDashboard() {
       <div className="left-panel">
         <div className="logo">
           <label htmlFor="avatar-upload">
-            <Avatar sx={{ width: 100, height: 80 }} />
-            <span style={{ fontWeight: 'bold', color: 'white' }}>Waseem</span>
+            <Avatar sx={{ width: 100, height: 80 }} ><img height="100%" width="100%" src={user?.profile_image} alt="" /></Avatar>
+            <span style={{ fontWeight: 'bold', color: 'white' }}>{user?.name}</span>
             {/* Add margin for spacing */}
             <input
               type="file"
@@ -104,7 +117,13 @@ function AdminDashboard() {
             <QuizOutlinedIcon />
             <span>F.A.Q</span>
           </div>
-          <div className="menu-item">
+          <div
+            className="menu-item"
+            onClick={() => {
+              localStorage.clear();
+              navigate("/");
+            }}
+          >
             <ExitToAppOutlinedIcon />
             LogOut
           </div>
