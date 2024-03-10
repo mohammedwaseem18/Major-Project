@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EmployeeDashboard.css'
 
 import ReceivedTask from './ReceivedTask'; // Import ReceivedTask component
@@ -19,8 +19,23 @@ import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import MessageIcon from '@mui/icons-material/Message';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../../apiCalls';
 
 function EmployeeDashboard() {
+
+  const [user, setUser] = useState();
+
+  const getUserDetails = async () => {
+    const res = await getUser();
+    setUser(res.user);
+  };
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+    const navigate=useNavigate()
+
   const [showReceivedTaskPanel, setShowReceivedTaskPanel] = useState(false);
   const [showRequestLeave, setShowRequestLeave] = useState(false);
   const [showEmployeeRequests, setShowEmployeeRequests] = useState(false);
@@ -80,8 +95,8 @@ function EmployeeDashboard() {
       <div className="left-panel">
         <div className="logo">
           <label htmlFor="avatar-upload">
-            <Avatar sx={{ width: 100, height: 80 }} />
-            <span style={{ fontWeight: 'bold', color: 'white' }}>Waseem</span> {/* Add margin for spacing */}
+            <Avatar sx={{ width: 100, height: 80 }} ><img height="100%" width="100%" src={user?.profile_image} alt="" /></Avatar>
+            <span style={{ fontWeight: 'bold', color: 'white' }}>{user?.name}</span> {/* Add margin for spacing */}
             <input
               type="file"
               id="avatar-upload"
@@ -126,7 +141,13 @@ function EmployeeDashboard() {
             <span>F.A.Q</span>
           </div>
 
-          <div className="menu-item">
+          <div
+            className="menu-item"
+            onClick={() => {
+              localStorage.clear();
+              navigate("/");
+            }}
+          >
             <ExitToAppOutlinedIcon />
             LogOut
           </div>

@@ -7,9 +7,10 @@ import { Routes, Route } from "react-router-dom";
 import ManagerLogin from "./components/ManagerLogin";
 import ManagerSignup from "./components/ManagerSignup";
 import EmployeeLogin from "./components/EmployeeLogin";
-import EmployeeSignup from "./components/EmployeeSignup";
 
 import "./App.css";
+import AdminDashboard from "./components/Manager/AdminDashboard";
+import EmployeeDashboard from "./components/Employee/EmployeeDashboard";
 
 const App = () => {
   return (
@@ -20,7 +21,8 @@ const App = () => {
           <Route path="/login" element={<ManagerLogin />} />
           <Route path="/signup" element={<ManagerSignup />} />
           <Route path="/elogin" element={<EmployeeLogin />} />
-          <Route path="/esignup" element={<EmployeeSignup />} />
+          <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
+          <Route path="/manager-dashboard" element={<AdminDashboard />} />
         </Routes>
       </BrowserRouter>
     </div>

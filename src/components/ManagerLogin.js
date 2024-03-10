@@ -1,19 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../apiCalls";
 
 function ManagerLogin() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = async (e) => {
+    console.log("login");
+    e.preventDefault();
+
+    const response = await loginUser(formData);
+
+    if (response.success) {
+      localStorage.setItem("user-token", response.authToken);
+      if (response.user.role === "manager") {
+        navigate("/manager-dashboard");
+      } else {
+        navigate("/employee-dashboard");
+      }
+    }
+  };
   return (
     <div className="login">
-      <form className="loginbox">
-        <h1 className="login-title">Manager Login</h1>
+      <form onSubmit={handleSubmit} className="loginbox">
+        <h1 className="login-title">Login</h1>
 
         <div className="login-inputcontainer">
           <div>
             <label className="inp-component" htmlFor="username">
               <input
+                value={formData.email}
+                name="email"
                 placeholder="Email Address *"
                 className="login-input"
+                onChange={handleChange}
                 type="text"
               />
             </label>
@@ -24,6 +56,9 @@ function ManagerLogin() {
                 placeholder="Password *"
                 className="login-input"
                 type="password"
+                value={formData.password}
+                onChange={handleChange}
+                name="password"
               />
             </label>
           </div>
@@ -35,7 +70,9 @@ function ManagerLogin() {
           <p>
             Don't Have An Account? <Link to={"/signup"}>Signup</Link>
           </p>
-          <p><Link to={"/elogin"}>Employee Login</Link></p>
+          <p>
+            <Link to={"/elogin"}>Employee Login</Link>
+          </p>
         </div>
       </form>
       <div className="right-login"></div>

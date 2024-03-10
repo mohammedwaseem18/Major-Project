@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './CompletedTask.css';
+import { getCompletedTasks } from '../../apiCalls';
 
 const CompletedTask = () => {
+
+   const [completedTasks, setCompleted] = useState([]);
+
+  const getTasksStatus = async () => {
+    const res = await getCompletedTasks();
+    setCompleted(res.tasks);
+  };
+
+  useEffect(() => {
+    getTasksStatus();
+  }, []);
+
   return (
     <div className='completed-task'>
-    <div className='completed-task-container'>
-      <p>User has completed the task</p>
-    </div>
 
-    <div className='completed-task-container'>
-      <p>User has completed the task</p>
-    </div>
-
-    <div className='completed-task-container'>
-      <p>User has completed the task</p>
-    </div>
-
+      {completedTasks.map((task, index) => (
+        <div className='completed-task-container' key={index}>
+          <p>{task.assignTo.name} has completed the task</p>
+        </div>
+      ))}
+    
+   
     </div>
   );
 };
